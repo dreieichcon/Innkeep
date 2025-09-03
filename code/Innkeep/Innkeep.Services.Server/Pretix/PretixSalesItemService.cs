@@ -4,7 +4,6 @@ using Innkeep.Api.Pretix.Interfaces.Quota;
 using Innkeep.Api.Pretix.Interfaces.Sales;
 using Innkeep.Services.Server.Interfaces.Internal;
 using Innkeep.Services.Server.Interfaces.Pretix;
-using Innkeep.Services.Server.Interfaces.Registers;
 using Serilog;
 
 namespace Innkeep.Services.Server.Pretix;
@@ -15,9 +14,8 @@ public class PretixSalesItemService(
 	IEventStateService eventStateService
 ) : IPretixSalesItemService
 {
-	private readonly PeriodicTimer _reloadTimer = new(TimeSpan.FromMinutes(QuotaRefreshInterval));
-
 	private const int QuotaRefreshInterval = 2;
+	private readonly PeriodicTimer _reloadTimer = new(TimeSpan.FromMinutes(QuotaRefreshInterval));
 
 	public event EventHandler? SalesItemsUpdated;
 
@@ -47,13 +45,15 @@ public class PretixSalesItemService(
 			eventStateService.PretixEventSlug
 		);
 
+		if (!itemResponse.IsSuccess)
+			return;
+
 		SalesItems =
 			itemResponse.Object!.Where(item => item.AllSalesChannels || item.SalesChannels.Contains("pretixpos"));
 
 		DtoSalesItems = SalesItems.Select(DtoSalesItem.FromPretix);
 
-		eventStateService.EventCurrency = DtoSalesItems.FirstOrDefault()
-														?.Currency ?? "EUR";
+		eventStateService.EventCurrency = DtoSalesItems.FirstOrDefault()?.Currency ?? "EUR";
 
 		LastFullUpdate = DateTime.Now;
 
@@ -71,9 +71,7 @@ public class PretixSalesItemService(
 
 		foreach (var item in toUpdate)
 		{
-			var itemQuotas = quotas.Object!
-									.Where(x => x.Items.Contains(item.Id))
-									.MaxBy(x => x.Size);
+			var itemQuotas = quotas.Object!.Where(x => x.Items.Contains(item.Id)).MaxBy(x => x.Size);
 
 			if (itemQuotas is null)
 			{
@@ -90,7 +88,7 @@ public class PretixSalesItemService(
 		}
 
 		DtoSalesItems = toUpdate;
-		
+
 		LastQuotaUpdate = DateTime.Now;
 
 		SalesItemsUpdated?.Invoke(this, EventArgs.Empty);

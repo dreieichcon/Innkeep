@@ -39,6 +39,7 @@ public class FiskalyTransactionRepositoryTests : AbstractFiskalyRepositoryTest
 		);
 
 		Assert.IsNotNull(transaction);
+		Assert.IsTrue(transaction.IsSuccess);
 
 		var updateRequest = new FiskalyTransactionUpdateRequest
 		{
@@ -70,5 +71,6 @@ public class FiskalyTransactionRepositoryTests : AbstractFiskalyRepositoryTest
 		var update = await _transactionRepository.UpdateTransaction(updateRequest);
 
 		Assert.IsNotNull(update);
+		Assert.IsTrue(update.IsSuccess);
 	}
 }
