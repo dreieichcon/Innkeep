@@ -42,5 +42,6 @@ public class PretixOrderRepositoryTests : AbstractPretixRepositoryTest
 		var result = await _orderRepository.CreateOrder(PretixOrganizerSlug, PretixEventSlug, cart, true);
 
 		Assert.IsNotNull(result);
+		Assert.IsTrue(result.IsSuccess);
 	}
 }
