@@ -8,6 +8,7 @@
         <UseWPF>true</UseWPF>
         <RootNamespace>Innkeep.Client</RootNamespace>
         <ApplicationIcon>resources\Innkeep.ico</ApplicationIcon>
+        <EnableWindowsTargeting>true</EnableWindowsTargeting>
     </PropertyGroup>
 
     <ItemGroup>

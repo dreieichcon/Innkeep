@@ -7,6 +7,8 @@ public class DtoSalesItem
 {
 	public int Id { get; set; }
 	
+	public int Position { get; set; }
+	
 	#region Pricing
 	public required string Name { get; set; }
 	
@@ -67,6 +69,7 @@ public class DtoSalesItem
 			Price = pretixSalesItem.DefaultPrice,
 			TaxRate = pretixSalesItem.TaxRate,
 			Currency = pretixSalesItem.Currency,
+			Position = pretixSalesItem.Position,
 			PrintCheckinVoucher = pretixSalesItem.InternalName?.StartsWith("print") ?? false,
 		};
 	}
