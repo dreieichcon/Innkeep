@@ -34,8 +34,8 @@ public class SalesItemService : ISalesItemService
 
 			if (items.Object is null || !items.Object.Any())
 				return;
-
-			SalesItems = items.Object!;
+            
+			SalesItems = items.Object!.OrderBy(x => x.Position);
 			_router.SalesItemsReloaded();
 			LastUpdated = DateTime.Now;
 			ItemsUpdated?.Invoke(this, EventArgs.Empty);
