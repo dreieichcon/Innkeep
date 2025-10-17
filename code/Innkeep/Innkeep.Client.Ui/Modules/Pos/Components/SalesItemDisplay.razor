@@ -3,9 +3,10 @@
 @inject ISalesItemService SalesItemService;
 @inject IClientPosService ClientPosService;
 
-<MudPaper Style="@PosStyles.DisplayStyle" Class="d-flex flex-grow-1 mh-100 overflow-hidden border-1 mud-border-primary" Elevation="1">
+<MudPaper Style="@PosStyles.DisplayStyle"
+          Class="d-flex flex-grow-1 mh-100 overflow-hidden border-1 mud-border-primary" Elevation="1">
     <ListBox Title="@ItemDisplayText">
-        <MudStack Class="flex-grow-1 mh-100 m-0" Justify="Justify.FlexStart" Spacing="0">
+        <MudStack Class="flex-grow-1 mh-100 m-0" Style="overflow-x: scroll;" Justify="Justify.FlexStart" Spacing="0">
             @foreach (var item in SalesItemService.SalesItems)
             {
                 <SalesItem Item="@item" OnClickCallback="() => AddToCart(item)"/>
@@ -38,7 +39,7 @@
             return true;
 
         var countInCart = ClientPosService.CartItems.FirstOrDefault(x => x.Id == item.Id)
-                                          ?.CartCount ?? 0;
+            ?.CartCount ?? 0;
 
         return !item.SoldOut && countInCart < item.QuotaLeft;
     }
