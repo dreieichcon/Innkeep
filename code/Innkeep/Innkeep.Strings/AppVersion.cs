@@ -2,7 +2,7 @@
 
 public static class AppVersion
 {
-	public const string Version = "0.2.10";
+	public const string Version = "0.2.11";
 
 	public static string ClientAppTitle => $"Innkeep Client v{Version}";
 

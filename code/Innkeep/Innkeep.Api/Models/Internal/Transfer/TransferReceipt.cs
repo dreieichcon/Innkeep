@@ -11,6 +11,8 @@ public class TransferReceipt
 	
 	public bool IsRetrieve { get; set; }
 	
+	public bool IsCancellation { get; set; }
+	
 	public string Currency { get; set; }
 	
 	public DateTime BookingTime { get; set; }

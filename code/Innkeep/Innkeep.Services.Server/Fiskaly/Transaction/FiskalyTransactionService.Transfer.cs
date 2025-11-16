@@ -10,6 +10,8 @@ public partial class FiskalyTransactionService
 {
 	public async Task<TransferReceipt> CompleteTransferTransaction(ClientTransfer model)
 	{
+		var receiptType = model.IsCancellation ? ReceiptType.Cancellation : ReceiptType.Transfer;
+		
 		var request = new FiskalyTransactionUpdateRequest
 		{
 			TransactionRevision = TransactionRevision,
@@ -22,7 +24,7 @@ public partial class FiskalyTransactionService
 				{
 					Receipt = new FiskalyReceipt
 					{
-						ReceiptType = ReceiptType.Transfer,
+						ReceiptType = receiptType,
 						AmountsPerVatRate = TransferVatRates(model.Amount * model.Factor),
 						AmountsPerPaymentType = TransferPaymentTypes(model.Amount * model.Factor),
 					},
@@ -37,6 +39,7 @@ public partial class FiskalyTransactionService
 		{
 			Amount = model.Amount,
 			IsRetrieve = model.IsRetrieve,
+			IsCancellation = model.IsCancellation,
 			BookingTime = DateTime.Now,
 			TransactionCounter = result.Object?.Number ?? -1,
 			QrCode = result.Object?.QrCodeData ?? "TSS ERROR",
