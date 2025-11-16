@@ -47,11 +47,15 @@ public static class ReceiptPrinterExtensions
 		manager.AddLine(SpaceEvenlyAcross("Art", receipt.Currency));
 		manager.AddDashedLine();
 
-		manager.AddLine(
-			receipt.IsRetrieve
-				? SpaceEvenlyAcross("Auszahlung", receipt.AmountString)
-				: SpaceEvenlyAcross("Einzahlung", receipt.AmountString)
-		);
+		if (receipt.IsCancellation)
+			manager.AddLine(SpaceEvenlyAcross("STORNO", receipt.AmountString));
+
+		else
+			manager.AddLine(
+				receipt.IsRetrieve
+					? SpaceEvenlyAcross("Auszahlung", receipt.AmountString)
+					: SpaceEvenlyAcross("Einzahlung", receipt.AmountString)
+			);
 
 		return manager;
 	}

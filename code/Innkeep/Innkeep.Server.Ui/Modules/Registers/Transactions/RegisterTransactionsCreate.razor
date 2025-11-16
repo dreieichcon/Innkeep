@@ -2,6 +2,7 @@
 @using System.Text.Json
 @using Innkeep.Api.Internal.Interfaces.Client.Printing
 @using Innkeep.Api.Json
+@using Innkeep.Api.Models.Internal.Transaction
 @using Innkeep.Api.Models.Internal.Transfer
 @using Innkeep.Services.Server.Interfaces.Fiskaly.Transaction
 @using Innkeep.Services.Server.Interfaces.Internal
@@ -26,6 +27,7 @@
                             <MudSelectItem Value="false">Einzahlung</MudSelectItem>
                             <MudSelectItem Value="true">Auszahlung</MudSelectItem>
                         </MudSelect>
+                        <MudCheckBox Label="STORNO" @bind-Value="ClientTransfer.IsCancellation"></MudCheckBox>
                         <MudNumericField
                             Variant="Variant.Outlined"
                             Label="Amount"
